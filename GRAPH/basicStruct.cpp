@@ -58,7 +58,7 @@ class GraphII{
           }
 
 
-          // Cycle Detection
+          // Cycle Detection in Undirected Graph Using BFS
           bool cycleDetectionUndirectedBFS(int src, unordered_map<int, bool> &visited){
                queue<int> q;
                unordered_map<int, int> parent;
@@ -80,6 +80,8 @@ class GraphII{
                          }
 
                          // Cycle Detection case
+                         // The key is to check whether the already visited nbr 
+                         // was visited from a different path
                          else if(visited[nbr] == true && nbr != parent[frontNode]) {
                               return true;
                          }
@@ -88,6 +90,47 @@ class GraphII{
 
                return false;
           }
+
+          // Cycle Detection in Undirected Graph Using DFS
+          bool cycleDetectionUndirectedDFS(int src, unordered_map<int, bool> &visited, int parent) {
+               visited[src] = true;
+
+               for(auto nbr : adjList[src]){
+                    if(!visited[nbr]) {
+                         cycleDetectionUndirectedDFS(nbr, visited, src);
+                    }
+                    
+                    else if(visited[nbr] == true && nbr != parent) {
+                         return true;
+                    }
+               }
+               
+               return false;
+          }
+
+          // Cycle Detection in Directed Graph Using DFS
+          bool CycleDetectionDirectedDFS(vector<vector<int>> &adj, int src, unordered_map<int, bool> &visited, unordered_map<int, bool> &dfsTracker){
+               visited[src] = true;
+               dfsTracker[src] = true;
+               
+               for(auto nbr : adj[src]) {
+                    if(!visited[nbr]) {
+                         bool ans = CycleDetectionDirectedDFS(adj, nbr, visited, dfsTracker);
+                         if(ans = true) {
+                              return true;
+                         }
+                    }
+                    else if(visited[nbr] == true && dfsTracker[nbr] == true) {
+                         // Cycle Present
+                         return true;
+                    }
+               }
+               
+               // Backtracking
+               dfsTracker[src] = false;
+               return false;
+           }
+
           bool isCycle(int n) {
                int src = 0;
                unordered_map<int, bool> visited;
@@ -102,8 +145,11 @@ class GraphII{
                // }
                // return ans;
 
-               return cycleDetectionUndirectedBFS(src, visited);
+               // return cycleDetectionUndirectedDFS(src, visited);
+
+               return cycleDetectionUndirectedDFS(src, visited, -1);
           }
+
 
 };
 
@@ -210,7 +256,6 @@ class Graph{
           } 
 
           // Cycle Detection Undirected in GraphII
-          
 
 
 

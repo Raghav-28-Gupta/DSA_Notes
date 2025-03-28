@@ -150,7 +150,8 @@ class GraphII{
 
                return cycleDetectionUndirectedDFS(src, visited, -1);
           }
-
+          // Cycle Detection can also be solved using Topological order
+          // In which the the nodes in ans array != total no. of nodes
           
 
           // Topological Sort (Applied only on Directed Acyclic Graphs)
@@ -158,9 +159,9 @@ class GraphII{
                vis[src] = true;
                
                for(auto nbr : adj[src]) {
-                   if(!vis[nbr]) {
-                       topDfs(adj, nbr, vis, ans);
-                   }
+                    if(!vis[nbr]) {
+                         topDfs(adj, nbr, vis, ans);
+                    }
                }
                
                // backtracking

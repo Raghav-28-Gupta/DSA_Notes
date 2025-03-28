@@ -150,6 +150,42 @@ class GraphII{
                return cycleDetectionUndirectedDFS(src, visited, -1);
           }
 
+          
+          // Topological Sort (Applied only on Directed Acyclic Graphs)
+          void topDfs(vector<vector<int>>& adj, int src, unordered_map<int, bool> &vis, vector<int> &ans){
+               vis[src] = true;
+               
+               for(auto nbr : adj[src]) {
+                   if(!vis[nbr]) {
+                       topDfs(adj, nbr, vis, ans);
+                   }
+               }
+               
+               // backtracking
+               ans.push_back(src);
+          }
+         
+
+         
+
+          // Function to return list containing vertices in Topological order.
+          vector<int> topologicalSort(vector<vector<int>>& adj) {
+               // Your code here
+               unordered_map<int, bool> vis;
+               vector<int> ans;
+               int n = adj.size();
+               
+               for(int i = 0; i < n; i++) {
+                   if(!vis[i]) {
+                       topDfs(adj, i, vis, ans);
+                   }
+               }
+               
+               reverse(ans.begin(), ans.end());
+               return ans;
+          }
+
+
 
 };
 

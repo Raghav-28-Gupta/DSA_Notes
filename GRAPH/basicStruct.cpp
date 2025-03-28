@@ -154,6 +154,7 @@ class GraphII{
           // In which the the nodes in ans array != total no. of nodes
           
 
+
           // Topological Sort (Applied only on Directed Acyclic Graphs)
           void topDfs(vector<vector<int>>& adj, int src, unordered_map<int, bool> &vis, vector<int> &ans){
                vis[src] = true;
@@ -219,7 +220,41 @@ class GraphII{
           }
 
 
-
+          
+          // Shortest Path
+          void shortestPathLengthSolver(int src, vector<vector<int>>& edges, vector<int> &ans, int dest){
+               unordered_map<int, bool> &vis;
+               unordered_map<int, int> &parent;
+               queue<int> q;
+               q.push(src);
+     
+               //Initial State
+               vis[src] = true;
+               parent[src] = -1;
+               
+               // Main Logic
+               while(!q.empty()) {
+                    int frontNode = q.front();
+                    q.pop();
+     
+                    for(auto nbr : edges[frontNode]) {
+                         if(!vis[nbr]){
+                              q.push(nbr);
+                              vis[nbr] = true;
+                              parent[nbr] = frontNode;
+                         }
+                    }
+               }
+               
+               // Parent array is ready
+               int node = dest;
+               while(node != -1) {
+                    ans.push_back(node);
+                    node = parent[node];
+               }
+               
+               reverse(ans.begin(), ans.end());
+          }
 
 };
 

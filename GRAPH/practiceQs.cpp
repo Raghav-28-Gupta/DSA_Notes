@@ -159,7 +159,32 @@ int orangesRotting(vector<vector<int>>& grid) {
 
 
 
-// LEECODE :  ()
+// GFG : Shortest Path in Undirected
+vector<int> shortestPath(vector<vector<int>>& adj, int src) {
+    // code here
+    int n = adj.size();
+    vector<int> dist(n, -1); // Initialize all distances as -1 (unreachable)
+    
+    queue<int> q;
+    q.push(src);
+    dist[src] = 0; // Distance to source is 0
+    
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        
+        // Process all adjacent nodes
+        for (int neighbor : adj[node]) {
+            // If this node hasn't been visited yet
+            if (dist[neighbor] == -1) {
+                dist[neighbor] = dist[node] + 1; // Update distance
+                q.push(neighbor);
+            }
+        }
+    }
+    
+    return dist;
+}
 
 
 

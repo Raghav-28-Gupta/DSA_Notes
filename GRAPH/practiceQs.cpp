@@ -177,7 +177,7 @@ vector<int> shortestPath(vector<vector<int>>& adj, int src) {
         for (int neighbor : adj[node]) {
             // If this node hasn't been visited yet
             if (dist[neighbor] == -1) {
-                dist[neighbor] = dist[node] + 1; // Update distance
+                dist[neighbor] = dist[node] + 1; // Update distance : shortest path to predecessor plus one edge.
                 q.push(neighbor);
             }
         }

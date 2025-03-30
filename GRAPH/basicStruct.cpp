@@ -220,7 +220,7 @@ class GraphII{
 
 
           // Shortest Path
-          void shortestPathLengthSolver(int src, vector<vector<int>>& edges, vector<int> &ans, int dest){
+          void shortestPathBfs(int src, vector<vector<int>>& edges, vector<int> &ans, int dest){
                unordered_map<int, bool> &vis;
                unordered_map<int, int> &parent;
                queue<int> q;

@@ -188,6 +188,69 @@ vector<int> shortestPath(vector<vector<int>>& adj, int src) {
 
 
 
+// GFG : Shortest path in Directed Acyclic Graph
+void topDfs(int src, vector<pair<int, int>> adj[], unordered_map<int, bool> &vis, stack<int> &st){
+        vis[src] = true;
+        
+        for(auto nbr: adj[src]) {
+            int node = nbr.first;
+            if(!vis[node]) {
+                topDfs(node, adj, vis, st);
+            }
+        }
+        
+        // backtracking 
+        st.push(src);
+    }
+  
+vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
+    // code here
+
+    // First Build Adjacency List
+    vector<pair<int, int>> adj[V];
+    for(auto edge: edges){
+        adj[edge[0]].push_back({edge[1], edge[2]});
+    }
+
+    // Topological Sort
+    stack<int> st;
+    unordered_map<int, bool> vis;
+    for(int i = 0; i < V; i++) {
+        if(!vis[i]) {
+            topDfs(i, adj, vis, st);
+        }
+    }
+
+    // Initialize Distances
+    vector<int> dist(V, INT_MAX);
+    dist[0] = 0;
+
+    // Main Logic
+    while(!st.empty()) {
+        int topNode = st.top();
+        st.pop();
+        
+        // Check if dist[topNode] holds a valid distance value
+        if(dist[topNode] != INT_MAX) {
+            for(auto nbr: adj[topNode]) {
+                int node = nbr.first;
+                int weight = nbr.second;
+                dist[node] = min(dist[node], dist[topNode] + weight);
+            }
+        }
+        
+    }
+
+    // Convert Infinity to -1
+    for(int i = 0; i < V; i++){
+        if(dist[i] == INT_MAX) {
+            dist[i] = -1;
+        }
+    }
+
+    return dist;
+}
+
 
 
 

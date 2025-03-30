@@ -215,7 +215,7 @@ vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
     // Topological Sort
     stack<int> st;
     unordered_map<int, bool> vis;
-    for(int i = 0; i < V; i++) {
+    for(int i = 0; i < V; i++) {  //For disconnected components
         if(!vis[i]) {
             topDfs(i, adj, vis, st);
         }

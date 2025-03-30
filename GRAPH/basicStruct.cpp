@@ -255,7 +255,49 @@ class GraphII{
           }
  
           
-
+          // Dijkstra Algorithm (GFG Practice)
+          vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
+               // Code here
+               int n = adj.size();
+               vector<int> dist(n, INT_MAX);
+               set<pair<int, int>> st;
+               
+               dist[src] = 0;
+               st.insert({0, src});
+               
+               // Main Logic
+               while(!st.empty()) {
+                    auto topElement = *(st.begin());
+                    int topNode = topElement.second;
+                    int topDist = topElement.first;
+                    
+                    // Pop this node
+                    st.erase(st.begin());
+                    
+                    for(auto nbr: adj[topNode]) {
+                         // nbr -> Pair{node, weight}
+                         int nbrNode = nbr.first;
+                         int nbrWeight = nbr.second;
+                         
+                         if(dist[topNode] + nbrWeight < dist[nbrNode]) {
+                              //1. update the set
+                              auto result = st.find({dist[nbrNode], nbrNode});
+                              if(result != st.end()){
+                                   // remove this entry
+                                   st.erase(result);
+                              }
+                              
+                              // DON'T Forget!!!
+                              //2. update the dist
+                              dist[nbrNode] = dist[topNode] + nbrWeight;
+                              st.insert({dist[nbrNode], nbrNode});
+                         }
+                    }
+                   
+               }
+               
+               return dist;
+          }
 };
 
 

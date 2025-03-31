@@ -255,7 +255,7 @@ class GraphII{
           }
  
           
-          // Dijkstra Algorithm (GFG Practice)
+          // Dijkstra Algorithm [works for Non-negative Weights & Single Source Node]
           vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
                // Code here
                int n = adj.size();
@@ -298,6 +298,9 @@ class GraphII{
                
                return dist;
           }
+
+          // Also Check Bellman-Ford in practiceQs.cpp for -> negative cycles & -ve weights
+
 };
 
 

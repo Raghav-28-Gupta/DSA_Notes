@@ -330,9 +330,39 @@ vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
     return dist;
 }
 
-
-
-
+ 
+// GFG : Floyd-Warshall Algorithm (shortest distances between every pair of vertices)
+void FloydWarshall(vector<vector<int>>& matrix) {
+    // Code here
+    int V = matrix.size();
+    
+    // Convert -1 to infinity
+    for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) {
+            if (matrix[i][j] == -1) {
+                matrix[i][j] = 1e9; 
+            }
+        }
+    }
+    
+    // Floyd-Warshall algorithm : using Helper Node
+    for (int helper = 0; helper < V; ++helper) {
+        for (int i = 0; i < V; ++i) {
+            for (int j = 0; j < V; ++j) {
+                matrix[i][j] = min(matrix[i][j], matrix[i][helper] + matrix[helper][j]);
+            }
+        }
+    }
+    
+    // Convert infinity back to -1 for unreachable vertices
+    for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) {
+            if (matrix[i][j] == 1e9) {
+                matrix[i][j] = -1;
+            }
+        }
+    }
+}
 
 
 

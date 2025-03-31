@@ -209,6 +209,9 @@ vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
     // First Build Adjacency List
     vector<pair<int, int>> adj[V];
     for(auto edge: edges){
+        // edge[0] -> source vertex
+        // edge[1] -> destination vertex
+        // edge[2] -> weight of the current edge.
         adj[edge[0]].push_back({edge[1], edge[2]});
     }
 
@@ -297,8 +300,35 @@ vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
 }
 
 
-
-
+// GFG : Bellman-Ford
+vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
+    // Code here
+    vector<int> dist(V, 1e8);      //used 1e8 instead of 1e9(1 billion) as a large value to represent infinity
+    dist[src] = 0;                 //as it caused an integer overflow during the addition of edge weights
+    
+    for(int i = 0; i < V - 1; i++){
+        for(auto nbr: edges) {
+            int node = nbr[0];
+            int destination = nbr[1];
+            int weight = nbr[2];
+            if(dist[node] != 1e8 && dist[node] + weight < dist[destination]) {
+                dist[destination] = dist[node] + weight;
+            }
+        }
+    }
+    
+    // Check for Negative Cycles
+    for(auto nbr: edges) {
+            int node = nbr[0];
+            int destination = nbr[1];
+            int weight = nbr[2];
+            if(dist[node] != 1e8 && dist[node] + weight < dist[destination]) {
+                return{-1}; //Negative Cycle Present
+            }
+        }
+    
+    return dist;
+}
 
 
 

@@ -255,6 +255,7 @@ vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
 }
 
 
+
 // GFG : Dijkstra Algorithm
 vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
     // Code here
@@ -300,6 +301,7 @@ vector<int> dijkstra(vector<vector<pair<int, int>>> &adj, int src) {
 }
 
 
+
 // GFG : Bellman-Ford
 vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
     // Code here
@@ -331,6 +333,7 @@ vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
 }
 
  
+
 // GFG : Floyd-Warshall Algorithm (shortest distances between every pair of vertices)
 void FloydWarshall(vector<vector<int>>& matrix) {
     // Code here
@@ -366,6 +369,72 @@ void FloydWarshall(vector<vector<int>>& matrix) {
 
 
 
+// GFG : Kosaraju Algorithm (strongly connected components)
+void topDfs(int src, vector<vector<int>> &adj, unordered_map<int, bool> &vis, stack<int> &st){
+    vis[src] = true;
+    
+    for(auto nbr : adj[src]) {
+        if(!vis[nbr]) {
+            topDfs(nbr, adj, vis, st);
+        }
+    }
+    
+    // backtracking
+    st.push(src);
+}
+
+void topDfsNew(int src, unordered_map<int, list<int>> &adjNew, unordered_map<int, bool> &visited){
+    visited[src] = true;
+    
+    for(auto nbr : adjNew[src]) {
+        if(!visited[nbr]) {
+            topDfsNew(nbr, adjNew, visited);
+        }
+    }
+}
+
+int kosaraju(vector<vector<int>> &adj) {
+    // code here
+    int V = adj.size();
+    stack<int> st;
+    unordered_map<int, bool> vis;
+    
+    // Step 1 : Topological Sort
+    for(int i = 0; i < V; i++) {
+        if(!vis[i]){
+            topDfs(i, adj, vis, st);
+        }
+    }
+    // stack is ready
+    
+    
+    // Step 2: Transpose Graph
+    unordered_map<int, list<int>> adjNew;
+    for(int i = 0; i < V; i++) {
+        for(auto nbr : adj[i]) {
+            // nbr -> children of i node
+            int node = nbr;
+            adjNew[node].push_back(i);
+        }
+    }
+    
+    
+    // Traversal
+    int count = 0;
+    unordered_map<int, bool> visited;
+    while(!st.empty()) {
+        int topNode = st.top();
+        st.pop();
+        
+        if(!visited[topNode]){
+            topDfsNew(topNode, adjNew, visited);
+            // One whole component is traversed 
+            count++;
+        }
+    }
+    
+    return count;
+}
 
 
 

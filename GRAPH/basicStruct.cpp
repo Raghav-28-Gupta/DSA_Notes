@@ -219,7 +219,7 @@ class GraphII{
           }
 
 
-          // Shortest Path (Also check practiceQs)
+          // Shortest Path (Also check basicAlgorithms)
           void shortestPathBfs(int src, vector<vector<int>>& edges, vector<int> &ans, int dest){
                unordered_map<int, bool> &vis;
                unordered_map<int, int> &parent;
@@ -299,7 +299,7 @@ class GraphII{
                return dist;
           }
 
-          // Check Bellman-Ford in practiceQs.cpp for -> Negative Cycles & -ve weights
+          // Check Bellman-Ford in basicAlgorithms.cpp for -> Negative Cycles & -ve weights
           
 
           // Floyd-Warshall Algorithm (shortest distances between every pair of vertices)
@@ -335,6 +335,59 @@ class GraphII{
                }
           }
 
+          // Kosaraju Algorithm (strongly connected components)
+          void topDfsNew(int src, unordered_map<int, list<int>> &adjNew, unordered_map<int, bool> &visited){
+               visited[src] = true;
+               
+               for(auto nbr : adjNew[src]) {
+                   if(!visited[nbr]) {
+                       topDfsNew(nbr, adjNew, visited);
+                   }
+               }
+          }
+         
+          int kosaraju(vector<vector<int>> &adj) {
+               // code here
+               int V = adj.size();
+               stack<int> st;
+               unordered_map<int, bool> vis;
+               
+               // Step 1 : Topological Sort
+               for(int i = 0; i < V; i++) {
+                   if(!vis[i]){
+                       topDfs(i, adj, vis, st);
+                   }
+               }
+               // stack is ready
+               
+               
+               // Step 2: Transpose Graph
+               unordered_map<int, list<int>> adjNew;
+               for(int i = 0; i < V; i++) {
+                   for(auto nbr : adj[i]) {
+                       // nbr -> children of i node
+                       int node = nbr;
+                       adjNew[node].push_back(i);
+                   }
+               }
+               
+               
+               // Traversal
+               int count = 0;
+               unordered_map<int, bool> visited;
+               while(!st.empty()) {
+                   int topNode = st.top();
+                   st.pop();
+                   
+                   if(!visited[topNode]){
+                       topDfsNew(topNode, adjNew, visited);
+                       // One whole component is traversed 
+                       count++;
+                   }
+               }
+               
+               return count;
+          }
 };
 
 

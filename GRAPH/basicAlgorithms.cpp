@@ -19,14 +19,14 @@ using namespace std;
 
 // LEETCODE : 200 (Number of Islands)
 void numIslandsUsingDFS(vector<vector<char>>& grid, int i, int j){
-    int rows = grid.size();
-    int cols = grid[0].size();
-    
     // Base case: out of bounds or water ('0')
     if(i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] == '0') {
         return;
     }
 
+    int rows = grid.size();
+    int cols = grid[0].size();
+    
     // Mark the cell as visited by setting it to '0'
     grid[i][j] = '0';
 
@@ -48,7 +48,6 @@ int numIslands(vector<vector<char>>& grid) {
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
             if(grid[i][j] == '1') {
-                
                 numIslandsUsingDFS(grid, i, j);
                 islandCount++;
             }
@@ -369,7 +368,7 @@ void FloydWarshall(vector<vector<int>>& matrix) {
 
 
 
-// GFG : Kosaraju Algorithm (strongly connected components)
+// GFG : Kosaraju Algorithm (Strongly Connected Components [SCC])
 void topDfs(int src, vector<vector<int>> &adj, unordered_map<int, bool> &vis, stack<int> &st){
     vis[src] = true;
     
@@ -414,6 +413,7 @@ int kosaraju(vector<vector<int>> &adj) {
         for(auto nbr : adj[i]) {
             // nbr -> children of i node
             int node = nbr;
+            // Reversing edges ensures that SCCs now form self-contained groups
             adjNew[node].push_back(i);
         }
     }

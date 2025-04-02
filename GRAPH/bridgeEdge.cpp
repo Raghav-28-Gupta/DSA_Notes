@@ -67,9 +67,63 @@ int isBridge(int V, vector<int> adj[], int c, int d) {
 }
 
 
+
+
 // LEETCODE : 1192 (Critical Connections in a Network)
+void criticalConnectionsDfs(int src, int parent, vector<vector<int>>& connections, unordered_map<int, bool> &vis, int &timer,
+     vector<int> &low, vector<int> &tin, vector<vector<int>> &ans){
 
+     timer++;
+     vis[src] = true;
+     low[src] = tin[src] = timer;
 
+     for(auto nbr: connections[src]) {
+          if(nbr == parent) continue;
+
+          if(!vis[nbr]) {
+               criticalConnectionsDfs(nbr, src, connections, vis, timer, low, tin, ans);
+
+               low[src] = min(low[src], low[nbr]);
+
+               // Check for the bridge
+               if(low[nbr] > tin[src]){
+                    vector<int> temp;
+                    temp.push_back(src);
+                    temp.push_back(nbr);
+                    ans.push_back(temp);
+               }
+          }
+
+          else{
+               // Back edge case
+               low[src] = min(low[src], tin[nbr]);
+          }
+     }
+}
+ 
+vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+     unordered_map<int, bool> vis;
+     vector<int> low(n);
+     vector<int> tin(n);
+     int timer = 0;
+
+     vector<vector<int>> ans;
+
+     // Build Adjacency list
+     vector<vector<int>> adj(n);
+     for(auto nbr: connections) {
+          adj[nbr[0]].push_back(nbr[1]);
+          adj[nbr[1]].push_back(nbr[0]);
+     }
+
+     for(int i = 0; i < n; i++) {
+          if(!vis[i]){
+               criticalConnectionsDfs(i, -1, adj, vis, timer, low, tin, ans);
+          }
+     }
+
+     return ans;
+}
 
 
  

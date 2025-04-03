@@ -71,7 +71,55 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
 
 
 // LEETCODE : 210 (Course Schedule II)
+void findOrderTopo(int n, vector<vector<int>> adj, vector<int> &ans){
+     unordered_map<int, int> indegree;
+     queue<int> q;
 
+     // Create indegree map
+     for(int i = 0; i < n; i++){
+         for(auto nbr: adj[i]) {
+             indegree[nbr]++;
+         }
+     }
+
+     // Initial State
+     for(int i = 0; i < n; i++) {
+         if(indegree[i] == 0){
+             q.push(i);
+         }
+     }
+     
+     // Main Logic
+     while(!q.empty()) {
+         int frontNode = q.front();
+         ans.push_back(frontNode);
+         q.pop();
+
+         for(auto nbr: adj[frontNode]){
+             indegree[nbr]--;
+             if(indegree[nbr] == 0){
+                 q.push(nbr);
+             }
+         }
+     }
+}
+
+vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+     int n = numCourses;
+     
+     vector<vector<int>> adj(n);
+     // Build the Adjacency List
+     for(auto nbr: prerequisites){
+         adj[nbr[1]].push_back(nbr[0]);
+     }
+     
+     vector<int> ans;
+     findOrderTopo(n, adj, ans);
+
+     if(ans.size() != numCourses) return {};
+     else return ans;
+ 
+}
 
 
 

@@ -124,6 +124,40 @@ vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
 
 
 
+// LEETCODE : 127 (Word Ladder)
+int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+     queue<pair<string, int>> q;
+     q.push({beginWord, 1});
 
+     // Visisted Set
+     unordered_set<string> st(wordList.begin(), wordList.end());
+     // Now, since I have used beginword 
+     // I have to remobve it from the set
+     
+     while(!q.empty()){
+         auto frontPair = q.front();
+         q.pop();
 
+         string frontString = frontPair.first;
+         int frontDist = frontPair.second;
+         
+         if(frontString == endWord){
+             return frontDist;
+         }
+
+         for(int i = 0; i < frontString.length(); i++) {
+             char orgCharacter = frontString[i];
+             for(char ch = 'a'; ch <= 'z'; ch++){
+                 frontString[i] = ch;
+                 if(st.find(frontString) != st.end()) {
+                     // valid String
+                     q.push({frontString, frontDist + 1});
+                     st.erase(frontString);
+                 }
+             }
+             frontString[i] = orgCharacter;
+         }
+     }
+     return 0;
+}
 

@@ -186,10 +186,31 @@ int minimumEffortPath(vector<vector<int>>& heights) {
         int curAbsDiff = current.first;
         int x = current.second.first;
         int y = current.second.second;
-
         
+        // Check for destination
+        if(x == rows-1 && y == cols-1){
+            return curAbsDiff;
+        }
+
+        if(curAbsDiff > dist[x][y]) continue;
+
+        else{
+            for(auto &[dx, dy] : dir){
+                int newX = x + dx;
+                int newY = y + dy;
+
+                if(newX < rows && newY < cols && newX >= 0 && newY >= 0) {
+                    int newAbsDist = abs(heights[x][y] - heights[newX][newY]);
+                    int maxAbsDist = max(curAbsDiff, newAbsDist);
+                    if(maxAbsDist < dist[newX][newY]){
+                        dist[newX][newY] = maxAbsDist;
+                        pq.push({maxAbsDist, {newX, newY}});
+                    }
+                }
+            }
+        }
 
     }
-
-
+    
+    return -1;
 }

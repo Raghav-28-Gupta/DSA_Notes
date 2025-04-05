@@ -161,3 +161,35 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
      return 0;
 }
 
+
+
+// LEETCODE : 1631 (Path With Minimum Effort)
+int minimumEffortPath(vector<vector<int>>& heights) {
+    int rows = heights.size();
+    int cols = heights[0].size();
+
+    // Set up a min-heap priority queue (smallest element on top)
+    priority_queue<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+    // vector<pair<int, pair<int, int>>> -> Underlying container (a vector of pairs)
+    // greater<pair<int, pair<int, int>>>> pq -> Comparator to define min-heap behavior
+    
+    q.push(0, {0, 0});
+    vector<vector<int>> dist(rows, vector<int>(cols, INT_MAX));
+    dist[0][0] = 0;
+
+    vector<pair<int, int>> dir = {{0, -1}, {0, 1}, {1, 0}, {-1, 0}};
+
+    while(!pq.empty()) {
+        auto current = pq.top();
+        pq.pop();
+
+        int curAbsDiff = current.first;
+        int x = current.second.first;
+        int y = current.second.second;
+
+        
+
+    }
+
+
+}

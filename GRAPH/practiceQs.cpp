@@ -237,8 +237,10 @@ int spanningTree(int V, vector<vector<int>> adj[]) {
         int weight = current.first;
         int node = current.second;
         
+        // Already the part of MST
         if(vis[node]) continue;
         
+        // Adding to the MST
         vis[node] = true;
         sumWeigth += weight;
         

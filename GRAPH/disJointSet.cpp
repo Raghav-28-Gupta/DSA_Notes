@@ -18,6 +18,9 @@ using namespace std;
 
 
 
+// Time Compplexity: O(α(N))  where α is the inverse Ackermann function, which grows super slowly
+
+
 class DisJointSet {
      vector<int> rank, parent, size;
 

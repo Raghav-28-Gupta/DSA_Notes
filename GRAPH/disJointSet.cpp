@@ -19,26 +19,28 @@ using namespace std;
 
 
 class DisJointSet {
-public:
-     vector<int> rank, parent;
+     vector<int> rank, parent, size;
 
-private:
+public:
      DisJointSet(int n) {
           rank.resize(n + 1, 0);
-          parent(n + 1);
+          size.resize(n + 1, 0);
+          parent.resize(n + 1);
+
           for(int i = 0; i <= n; i++) parent[i] = i;
      }
           
+     // Path compression
      int findUpar(int u) {
           if(u != parent[u]) {
-               parent[u] = find(parent[u]);
+               parent[u] = findUpar(parent[u]);
           }
           
           // Ultimate Parent
           return parent[u];
      }
 
-     int unionByRank(int u, int v) {
+     void unionByRank(int u, int v) {
           int ult_u = findUpar(u);
           int ult_v = findUpar(v);
 
@@ -55,19 +57,36 @@ private:
                rank[ult_u]++;
           }
      }
+
+     void unionBySize(int u, int v) {
+          int ult_u = findUpar(u);
+          int ult_v = findUpar(v);
+
+          if(ult_u == ult_v) return;
+
+          if(size[ult_u] < size[ult_v]) {
+               parent[ult_u] = ult_v;
+               size[ult_v] += size[ult_u];
+          }
+
+          else {
+               parent[ult_v] = ult_u;
+               size[ult_u] += size[ult_v];
+          }
+     }
 };
 
 
 
 
-int msin() {
+int main() {
      DisJointSet ds(7);
 
-     ds.unionByRank(1, 2);
-     ds.unionByRank(2, 3);
-     ds.unionByRank(4, 5);
-     ds.unionByRank(6, 7);
-     ds.unionByRank(5, 6);
+     ds.unionBySize(1, 2);
+     ds.unionBySize(2, 3);
+     ds.unionBySize(4, 5);
+     ds.unionBySize(6, 7);
+     ds.unionBySize(5, 6);
      // If 3 & 7 same or not
      if(ds.findUpar(3) == ds.findUpar(7)){
           cout << "Same" << endl;
@@ -76,6 +95,12 @@ int msin() {
      }
 
      ds.unionByRank(3, 7);
+
+     if(ds.findUpar(3) == ds.findUpar(7)){
+          cout << "Same" << endl;
+     } else {
+          cout << "Not Same" << endl;
+     }
      
      return 0;
 }

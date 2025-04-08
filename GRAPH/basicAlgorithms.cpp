@@ -438,6 +438,43 @@ int kosaraju(vector<vector<int>> &adj) {
 
 
 
+// Prim's Algorithm (Minimum Spanning Tree)
+int spanningTree(int V, vector<vector<int>> adj[]) {
+    // code here
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
+    unordered_map<int, bool> vis;
+    
+    for(int i = 0; i < V; i++){
+        vis[i] = false;
+    }
+    
+    // Initial State
+    minHeap.push({0, 0});
+    int sumWeigth = 0;
+    
+    while(!minHeap.empty()){
+        auto current = minHeap.top();
+        minHeap.pop();
+        
+        int weight = current.first;
+        int node = current.second;
+        
+        if(vis[node]) continue;
+        
+        vis[node] = true;
+        sumWeigth += weight;
+        
+        for(auto &edge : adj[node]){
+            int nbr = edge[0];
+            int nbrWt = edge[1];
+            if(!vis[nbr]) {
+                minHeap.push({nbrWt, nbr});
+            }
+        }
+    }
+    
+    return sumWeigth;
+}
 
 
 

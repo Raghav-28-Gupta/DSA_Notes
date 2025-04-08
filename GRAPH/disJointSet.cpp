@@ -66,6 +66,9 @@ public:
           int ult_v = findUpar(v);
 
           if(ult_u == ult_v) return;
+          
+          // We attach the smaller set under the larger one in Union by Size to optimize the depth of the tree 
+          // which helps keep the find() operation fast.
 
           if(size[ult_u] < size[ult_v]) {
                parent[ult_u] = ult_v;

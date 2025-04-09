@@ -288,7 +288,7 @@ vector<int> eventualSafeNodesTopoSolver(int V, vector<int> adj[]) {
     for(int i = 0; i < V; i++) {
         for(auto nbr : adj[i]) {
             reverseGraph[nbr].push_back(i);
-            indegree[i]++;
+            indegree[i]++;  // original node with out-edge gets incremented
         }
     }
     

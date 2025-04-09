@@ -258,7 +258,28 @@ int spanningTree(int V, vector<vector<int>> adj[]) {
 
 
 
-
+// GFG : Eventual Safe States
+bool eventualSafeNodesDfsSolver(int src, vector<int> adj[], unordered_map<int, bool> &vis, vector<int> &safeNode, unordered_map<int, bool> &dfsTracker){
+    vis[src] = true;
+    dfsTracker[src] = true;
+    safeNode[src] = 0;
+    
+    for(auto nbr : adj[src]){
+        if(!vis[nbr]){
+            bool ans = eventualSafeNodesDfsSolver(nbr, adj, vis, safeNode, dfsTracker);
+            if(ans == true) return true;
+        }
+        
+        if(vis[nbr] && dfsTracker[nbr] == true){
+            return true;
+        }
+    }
+    
+    // Backtracking
+    dfsTracker[src] = false;
+    safeNode[src] = 1;
+    return false;
+}
 
 
 

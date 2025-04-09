@@ -281,6 +281,62 @@ bool eventualSafeNodesDfsSolver(int src, vector<int> adj[], unordered_map<int, b
     return false;
 }
 
+vector<int> eventualSafeNodesTopoSolver(int V, vector<int> adj[]) {
+    vector<vector<int>> reverseGraph(V);
+    vector<int> indegree(V, 0);
+    
+    for(int i = 0; i < V; i++) {
+        for(auto nbr : adj[i]) {
+            reverseGraph[nbr].push_back(i);
+            indegree[i]++;
+        }
+    }
+    
+    queue<int> q;
+    for(int i = 0; i < V; i++) {
+        if(indegree[i] == 0){
+            q.push(i);
+        }
+    }
+    
+    vector<int> safeNodes;
+    while(!q.empty()) {
+        int frontNode = q.front();
+        q.pop();
+        safeNodes.push_back(frontNode);
+        
+        for(auto nbr : reverseGraph[frontNode]){
+            indegree[nbr]--;
+            if(indegree[nbr] == 0){
+                q.push(nbr);
+            }
+        }
+    }
+    
+    sort(safeNodes.begin(), safeNodes.end());
+    return safeNodes;
+}
+
+vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+    unordered_map<int, bool> vis;
+    unordered_map<int, bool> dfsTracker;
+    vector<int> safeNode(V, 0);
+    vector<int> ans;
+    
+    for(int i = 0; i < V; i++){
+        if(!vis[i]){
+            bool ans = eventualSafeNodesDfsSolver(i, adj, vis, safeNode, dfsTracker);
+        }
+    }
+    
+    for(int i = 0; i < V; i++) {
+        if(safeNode[i]) ans.push_back(i);
+    }
+    
+    return ans;
+    
+    // return eventualSafeNodesTopoSolver(V, adj);
+}
 
 
 

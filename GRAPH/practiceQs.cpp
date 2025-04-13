@@ -125,40 +125,96 @@ vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
 
 // LEETCODE : 127 (Word Ladder)
 int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-     queue<pair<string, int>> q;
-     q.push({beginWord, 1});
+    queue<pair<string, int>> q;
+    q.push({beginWord, 1});
 
-     // Visisted Set
-     unordered_set<string> st(wordList.begin(), wordList.end());
-     // Now, since I have used beginword 
-     // I have to remobve it from the set
-     
-     while(!q.empty()){
-         auto frontPair = q.front();
-         q.pop();
+    // Visisted Set
+    unordered_set<string> st(wordList.begin(), wordList.end());
+    // Now, since I have used beginword 
+    // I have to remove it from the set
+    st.erase(beginWord);
+    
+    while(!q.empty()){
+        auto frontPair = q.front();
+        q.pop();
 
-         string frontString = frontPair.first;
-         int frontDist = frontPair.second;
-         
-         if(frontString == endWord){
-             return frontDist;
-         }
+        string frontString = frontPair.first;
+        int frontDist = frontPair.second;
+        
+        if(frontString == endWord){
+            return frontDist;
+        }
 
-         for(int i = 0; i < frontString.length(); i++) {
-             char orgCharacter = frontString[i];
-             for(char ch = 'a'; ch <= 'z'; ch++){
-                 frontString[i] = ch;
-                 if(st.find(frontString) != st.end()) {
-                     // valid String
-                     q.push({frontString, frontDist + 1});
-                     st.erase(frontString);
-                 }
-             }
-             frontString[i] = orgCharacter;
-         }
-     }
-     return 0;
+        for(int i = 0; i < frontString.length(); i++) {
+            char orgCharacter = frontString[i];
+            for(char ch = 'a'; ch <= 'z'; ch++){
+                frontString[i] = ch;
+                if(st.find(frontString) != st.end()) {
+                    // valid String
+                    q.push({frontString, frontDist + 1});
+                    st.erase(frontString);
+                }
+            }
+            frontString[i] = orgCharacter;
+        }
+    }
+    return 0;
 }
+
+// GFG : Word Ladder II
+vector<vector<string>> findSequences(string beginWord, string endWord, vector<string>& wordList) {
+    vector<vector<string>> ans;
+    // To track shortest Transformation
+    queue<pair<vector<string>, int>> q;
+    q.push({{beginWord}, 1});
+    unordered_set<string> st(wordList.begin(), wordList.end()) ;
+    
+    
+    // If the targetWord is not in the wordList, there's no possible transformation
+    if (st.find(endWord) == st.end()) {
+        return {};
+    }
+    
+    int preLevel = -1;
+    vector<string> toBeRemoved;
+    
+    while(!q.empty()) {
+        auto frontNode = q.front();
+        q.pop();
+        
+        auto currSeq = frontNode.first;
+        auto currWord = currSeq[currSeq.size() - 1];
+        auto currLevel = frontNode.second;
+        
+        if(currLevel != preLevel){
+            for(auto wrd: toBeRemoved) st.erase(wrd);
+            toBeRemoved.clear();
+            preLevel = currLevel;
+        }
+        
+        if(currWord == endWord){
+            ans.push_back(currSeq);
+        }
+        
+        for(int i = 0 ; i < currWord.length(); i++){
+            char originalChar = currWord[i];
+            for(char ch = 'a'; ch <= 'z'; ch++) {
+                currWord[i] = ch;
+                if(st.find(currWord) != st.end()) {
+                    auto temp = currSeq;
+                    temp.push_back(currWord);
+                    q.push({temp, currLevel + 1});
+                    toBeRemoved.push_back(currWord);
+                }
+            }
+            currWord[i] = originalChar;
+        }
+        
+    }
+    
+    return ans;
+}
+
 
 
 

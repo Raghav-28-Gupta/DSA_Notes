@@ -401,7 +401,7 @@ int minimumMultiplications(vector<int>& arr, int start, int end) {
     const int mod = 100000;
     queue<pair<int, int>> q;
     q.push({start, 0});  // {current node, steps taken}
-    
+
     vector<int> dist(100000, INT_MAX); 
     dist[start] = 0;
     
@@ -425,7 +425,46 @@ int minimumMultiplications(vector<int>& arr, int start, int end) {
 
 
 
-
+// GFG : City With the Smallest Number of Neighbors at a Threshold Distance
+// Solved Using Floyd-Warshall Algorithm
+int findCity(int n, int m, vector<vector<int>>& edges, int distanceThreshold) {
+    vector<vector<int>> dist(n, vector<int> (n, INT_MAX));
+    
+    for(auto it : edges) {
+        dist[it[0]][it[1]] = it[2];
+        dist[it[1]][it[0]] = it[2];
+    }
+    
+    for(int i = 0; i < n; i++) dist[i][i] = 0;
+    
+    // Floyd-Warshall Algorithm
+    for(int via = 0; via < n; via++) {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++){
+                if(dist[i][via] != INT_MAX && dist[j][via] != INT_MAX) {
+                    dist[i][j] = min(dist[i][j], dist[i][via] + dist[via][j]);
+                }
+            }
+        }
+    }
+    
+    int cntCity = n + 1;  // Minimum count of reachable cities
+    int cityNo = -1;  // City with the smallest count
+    
+    for(int city = 0 ; city < n; city++) {
+        int cnt = 0;
+        for(int adjCity = 0; adjCity < n; adjCity++){
+            if(city != adjCity && dist[city][adjCity] <= distanceThreshold) cnt++;   
+        }
+        
+        if(cnt <= cntCity) {
+            cntCity = cnt;
+            cityNo = city;
+        }
+    }
+     
+    return cityNo;
+}
 
 
 

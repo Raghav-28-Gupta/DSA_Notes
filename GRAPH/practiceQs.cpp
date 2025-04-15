@@ -397,7 +397,31 @@ vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
 
 
 // GFG : Minimum Multiplications to reach End
-
+int minimumMultiplications(vector<int>& arr, int start, int end) {
+    const int mod = 100000;
+    queue<pair<int, int>> q;
+    q.push({start, 0});  // {current node, steps taken}
+    
+    vector<int> dist(100000, INT_MAX); 
+    dist[start] = 0;
+    
+    while (!q.empty()) {
+        int node = q.front().first;
+        int steps = q.front().second;
+        q.pop();
+        
+        for (auto ele : arr) {
+            int newNode = (node * ele) % mod;
+            if (steps + 1 < dist[newNode]) {
+                dist[newNode] = steps + 1;
+                if (newNode == end) return steps + 1;
+                q.push({newNode, steps + 1});
+            }
+        }
+    }
+    
+    return (start == end) ? 0 : -1; 
+}
 
 
 

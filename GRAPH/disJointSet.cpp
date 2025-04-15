@@ -18,9 +18,7 @@ using namespace std;
 
 
 
-// Time Compplexity: O(α(N))  where α is the inverse Ackermann function, which grows super slowly
-
-
+// Time Complexity: O(α(N))  where α is the inverse Ackermann function, which grows super slowly
 class DisJointSet {
      vector<int> rank, parent, size;
 
@@ -29,7 +27,8 @@ public:
           rank.resize(n + 1, 0);
           size.resize(n + 1, 0);
           parent.resize(n + 1);
-
+          
+          // Each node is its own parent initially
           for(int i = 0; i <= n; i++) parent[i] = i;
      }
           
@@ -81,6 +80,38 @@ public:
           }
      }
 };
+
+
+
+// GFG : Connecting the graph
+int Solve(int n, vector<vector<int>>& edge) {
+     DisJointSet ds(n);
+     
+     int cntExtras = 0;
+     for(auto node : edge){
+          int u = node[0];
+          int v = node[1];
+          
+          if(ds.findUpar(u) == ds.findUpar(v)) {
+               cntExtras++;
+          }
+          
+          else{
+               ds.unionBySize(u, v);
+          }
+     }
+     
+     
+     int cntCompo = 0;
+     for(int i = 0; i < n; i++) {
+         if(ds.parent[i] == i) cntCompo++;
+     }
+     
+     int ans = cntCompo - 1;
+     
+     if(cntExtras >= ans) return ans;
+     return -1;
+}
 
 
 

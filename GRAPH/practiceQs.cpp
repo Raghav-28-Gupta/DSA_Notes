@@ -97,8 +97,69 @@ int numProvinces(vector<vector<int>> adj, int V) {
 
 
 
+// LEETCODE : 200 (Number of Islands)      &&    GFG : Number Of Island
+void numIslandsUsingDFS(vector<vector<char>>& grid, int i, int j){
+     int rows = grid.size();
+     int cols = grid[0].size();
 
+     if(i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] == '0') {
+         return;
+     }
 
+     grid[i][j] = '0';
+     numIslandsUsingDFS(grid, i, j + 1);   //Right
+     numIslandsUsingDFS(grid, i + 1, j);   //UP
+     numIslandsUsingDFS(grid, i, j - 1);   //Left
+     numIslandsUsingDFS(grid, i - 1, j);   //Down
+}
+ 
+void numIslandsUsingBFS(vector<vector<char>>& grid, vector<vector<int>> &vis, int row, int col) {
+     int n = grid.size();
+     int m = grid[0].size();
+
+     vis[row][col] = 1;
+     queue<pair<int, int>> q;
+     q.push({row, col});
+
+     vector<pair<int, int>> dir = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+
+     while(!q.empty()) {
+         int row = q.front().first;
+         int col = q.front().second;
+         q.pop();
+
+         for(auto [dx, dy] : dir) {
+             int newRow = row + dx;
+             int newCol = col + dy;
+             if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && 
+                 grid[newRow][newCol] == '1' && !vis[newRow][newCol]) {
+                 q.push({newRow, newCol});
+                 vis[newRow][newCol] = 1;
+             }
+         }
+     }
+}
+
+int numIslands(vector<vector<char>>& grid) {
+     if(grid.empty()) {
+         return 0;
+     }
+     int rows = grid.size();
+     int cols = grid[0].size();
+     
+     vector<vector<int>> vis(rows, vector<int> (cols, 0));
+     int islandCount = 0;
+     for(int i = 0; i < rows; i++) {
+         for(int j = 0; j < cols; j++) {
+             if(grid[i][j] == '1' && !vis[i][j]) {
+                 islandCount++;
+                 numIslandsUsingBFS(grid, vis, i, j);
+             }
+         }
+     }
+
+     return islandCount;
+}
 
 
 

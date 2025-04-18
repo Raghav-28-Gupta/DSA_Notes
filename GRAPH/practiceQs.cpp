@@ -97,7 +97,7 @@ int numProvinces(vector<vector<int>> adj, int V) {
 
 
 
-// LEETCODE : 200 (Number of Islands)      &&    GFG : Number Of Island
+// LEETCODE : 200 (Number of Islands) 
 void numIslandsUsingDFS(vector<vector<char>>& grid, int i, int j){
      int rows = grid.size();
      int cols = grid[0].size();

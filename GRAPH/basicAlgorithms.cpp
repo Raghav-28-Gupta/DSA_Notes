@@ -479,3 +479,121 @@ int spanningTree(int V, vector<vector<int>> adj[]) {
 
 
 
+// GFG : Flood fill Algorithm
+void floodFillBFS(vector<vector<int>> &ans, int row, int col, int newColor, vector<pair<int, int>> moves, int oldColor){
+    int n = ans.size();
+    int m = ans[0].size();
+
+    ans[row][col] = newColor;
+
+    queue<pair<int, int>> q;
+    q.push({row, col});
+
+    while(!q.empty()) {
+        int row = q.front().first;
+        int col = q.front().second;
+        q.pop();
+
+        for(auto move : moves) {
+            int newRow = row + move.first;
+            int newCol = col + move.second;
+            if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m
+            && ans[newRow][newCol] == oldColor && ans[newRow][newCol] != newColor){
+                    ans[newRow][newCol] = newColor;
+                    q.push({newRow, newCol});
+            }
+        } 
+    }
+}
+
+void floodFillDFS(vector<vector<int>> &ans, int row, int col, int newColor, vector<pair<int, int>> moves, int oldColor){
+    int n = ans.size();
+    int m = ans[0].size();
+
+    ans[row][col] = newColor;
+    for(auto move : moves) {
+        int newRow = row + move.first;
+        int newCol = col + move.second;
+        if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m
+           && ans[newRow][newCol] == oldColor && ans[newRow][newCol] != newColor){
+            ans[newRow][newCol] = newColor;
+            floodFillDFS(ans, newRow, newCol, newColor, moves, oldColor);
+        }
+    }
+}
+
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+    int rows = image.size();
+    int cols = image[0].size();
+
+    vector<vector<int>> ans = image;
+    int oldColor = ans[sr][sc];
+    ans[sr][sc] = newColor;
+
+    vector<pair<int, int>> moves = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    floodFillBFS(ans, sr, sc, newColor, moves, oldColor);
+
+    return ans;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -90,6 +90,7 @@ class GraphII{
                }
 
                return false;
+               // Time Complexity: O(V + E)
           }
 
           // Cycle Detection in Undirected Graph Using DFS
@@ -107,6 +108,7 @@ class GraphII{
                }
                
                return false;
+               // Time Complexity: O(V + E)
           }
 
           // Cycle Detection in Directed Graph Using DFS
@@ -117,7 +119,7 @@ class GraphII{
                for(auto nbr : adj[src]) {
                     if(!visited[nbr]) {
                          bool ans = CycleDetectionDirectedDFS(adj, nbr, visited, dfsTracker);
-                         if(ans = true) {
+                         if(ans == true) {
                               return true;
                          }
                     }

@@ -164,6 +164,58 @@ int numIslands(vector<vector<char>>& grid) {
 
 
 
+// GFG : Rotten Oranges
+int orangesRottingBFS(vector<vector<int>>& mat) {
+    int n = mat.size();
+    int m = mat[0].size();
+    
+    queue<pair<pair<int, int>, int>> q;    // {{row, col}, time}
+    int vis[n][m];  //Copy of 'mat' to avoid altering org data
+    
+    vector<pair<int, int>> moves = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    
+    int cntFresh = 0;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++){
+            if(mat[i][j] == 2){
+                vis[i][j] = 2;
+                q.push({{i, j}, 0});
+            }
+            else{
+                vis[i][j] = 0;
+            }
+            
+            if(mat[i][j] == 1) cntFresh++;
+        }
+    }
+    
+    int count = 0;
+    int time = 0;   //starting time of the oranges in the queue
+    while(!q.empty()){
+        int row = q.front().first.first;
+        int col = q.front().first.second;
+        int tm = q.front().second;
+        q.pop();
+        
+        time = max(time, tm);  // Keep track of the maximum time
+        
+        for(auto move : moves) {
+            int newRow = row + move.first;
+            int newCol = col + move.second;
+            if(newRow >= 0 && newRow < n && newCol >= 0 && newCol < m &&
+                vis[newRow][newCol] == 0 && mat[newRow][newCol] == 1){
+                    q.push({{newRow, newCol}, tm + 1});
+                    vis[newRow][newCol] = 2;
+                    count++;
+            }
+        }
+        
+    }
+    
+    if(count != cntFresh) return -1;
+    
+    return time;
+}
 
 
 

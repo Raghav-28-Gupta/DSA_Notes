@@ -90,7 +90,7 @@ class GraphII{
                }
 
                return false;
-               // Time Complexity: O(V + E)
+               // Time Complexity: O(V + E) or More Precisely: O(N + 2E)
           }
 
           // Cycle Detection in Undirected Graph Using DFS
@@ -108,7 +108,7 @@ class GraphII{
                }
                
                return false;
-               // Time Complexity: O(V + E)
+               // Time Complexity: O(V + E) or More Precisely: O(N + 2E)
           }
 
           // Cycle Detection in Directed Graph Using DFS

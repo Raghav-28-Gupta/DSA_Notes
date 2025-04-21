@@ -219,6 +219,7 @@ int orangesRottingBFS(vector<vector<int>>& mat) {
 
 
 
+
 // GFG : Distance of nearest cell having 1
 vector<vector<int>> nearest(vector<vector<int>>& grid) {
     int n = grid.size();
@@ -262,6 +263,7 @@ vector<vector<int>> nearest(vector<vector<int>>& grid) {
     
     return dist;
 }
+
 
 
 
@@ -384,6 +386,77 @@ void solve(vector<vector<char>>& board) {
             }
         }
     }
+}
+
+
+
+
+// GFG : Number Of Enclaves
+int numberOfEnclaves(vector<vector<int>> &grid) {
+    int n = grid.size();
+    int m = grid[0].size();
+    if(n == 0) return 0;
+
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    queue<pair<int, int>> q;
+
+    vector<pair<int, int>> steps = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    for(int i = 0; i < m; i++) {
+        // first row 
+        if(grid[0][i] == 1 && vis[0][i] == 0) {
+            vis[0][i] = 1;
+            q.push({0, i});
+        }
+
+        // last row 
+        if(grid[n - 1][i] == 1 && vis[n - 1][i] == 0) {
+            vis[n - 1][i] = 1;
+            q.push({n - 1, i});
+        }
+    }
+
+
+    for(int i = 0; i < n; i++) {
+        // first col 
+        if(grid[i][0] == 1 && vis[i][0] == 0) {
+            vis[i][0] = 1;
+            q.push({i, 0});
+        }
+
+        // last col 
+        if(grid[i][m - 1] == 1 && vis[i][m - 1] == 0) {
+            vis[i][m - 1] = 1;
+            q.push({i, m - 1});
+        }
+    }
+
+    while(!q.empty()) {
+        int row = q.front().first;
+        int col = q.front().second;
+        q.pop();
+
+        for(auto step : steps){
+            int nrow = row + step.first;
+            int ncol = col + step.second;
+            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+               grid[nrow][ncol] == 1 && vis[nrow][ncol] == 0) {
+                vis[nrow][ncol] = 1;
+                q.push({nrow, ncol});
+            } 
+        }        
+    }
+    
+    int count = 0;
+    for(int k = 0; k < n; k++) {
+        for(int l = 0; l < m; l++){
+            if(grid[k][l] == 1 && vis[k][l] == 0) {
+                count++;
+            }
+        }
+    }
+    
+    return count;
 }
 
 

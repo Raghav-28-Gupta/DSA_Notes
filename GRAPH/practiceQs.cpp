@@ -281,7 +281,6 @@ void fillDfs(int row, int col, vector<vector<int>> &vis, vector<pair<int, int>> 
         }
     }
 }
-
 vector<vector<char>> fill(vector<vector<char>>& mat) {
     int n = mat.size();
     int m = mat[0].size();
@@ -322,7 +321,70 @@ vector<vector<char>> fill(vector<vector<char>>& mat) {
     return mat;
 }
 
+// LEETCODE : 130 (Surrounded Regions)
+void solve(vector<vector<char>>& board) {
+    int n = board.size();
+    int m = board[0].size();
+    if(n == 0) return;
 
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    queue<pair<int, int>> q;
+
+    vector<pair<int, int>> steps = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    for(int i = 0; i < m; i++) {
+        // first row 
+        if(board[0][i] == 'O' && vis[0][i] == 0) {
+            vis[0][i] = 1;
+            q.push({0, i});
+        }
+
+        // last row 
+        if(board[n - 1][i] == 'O' && vis[n - 1][i] == 0) {
+            vis[n - 1][i] = 1;
+            q.push({n - 1, i});
+        }
+    }
+
+
+    for(int i = 0; i < n; i++) {
+        // first col 
+        if(board[i][0] == 'O' && vis[i][0] == 0) {
+            vis[i][0] = 1;
+            q.push({i, 0});
+        }
+
+        // last col 
+        if(board[i][m - 1] == 'O' && vis[i][m - 1] == 0) {
+            vis[i][m - 1] = 1;
+            q.push({i, m - 1});
+        }
+    }
+
+    while(!q.empty()) {
+        int row = q.front().first;
+        int col = q.front().second;
+        q.pop();
+
+        for(auto [dx, dy] : steps){
+            int nrow = row + dx;
+            int ncol = col + dy;
+            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+               board[nrow][ncol] == 'O' && vis[nrow][ncol] == 0) {
+                vis[nrow][ncol] = 1;
+                q.push({nrow, ncol});
+            } 
+        }        
+    }
+
+    for(int k = 0; k < n; k++) {
+        for(int l = 0; l < m; l++){
+            if(board[k][l] == 'O' && vis[k][l] == 0) {
+                board[k][l] = 'X';
+            }
+        }
+    }
+}
 
 
 

@@ -266,6 +266,22 @@ vector<vector<int>> nearest(vector<vector<int>>& grid) {
 
 
 // GFG : Replace O's with X's
+void fillDfs(int row, int col, vector<vector<int>> &vis, vector<pair<int, int>> &steps, vector<vector<char>>& mat) {
+    vis[row][col] = 1;  
+
+    int n = mat.size();
+    int m = mat[0].size();
+
+    for (auto step : steps) {
+        int nrow = row + step.first;
+        int ncol = col + step.second;
+        if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+            mat[nrow][ncol] == 'O' && vis[nrow][ncol] == 0) {
+            fillDfs(nrow, ncol, vis, steps, mat);
+        }
+    }
+}
+
 vector<vector<char>> fill(vector<vector<char>>& mat) {
     int n = mat.size();
     int m = mat[0].size();

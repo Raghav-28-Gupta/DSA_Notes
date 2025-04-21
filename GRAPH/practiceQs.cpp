@@ -391,7 +391,7 @@ void solve(vector<vector<char>>& board) {
 
 
 
-// GFG : Number Of Enclaves
+// GFG && LEETCODE : 1020 (Number Of Enclaves)
 int numberOfEnclaves(vector<vector<int>> &grid) {
     int n = grid.size();
     int m = grid[0].size();

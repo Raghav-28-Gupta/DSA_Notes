@@ -515,6 +515,29 @@ bool isBipartiteDFS(vector<vector<int>> &edges, vector<int> &col, int src, int c
     return true;
 }
 
+bool isBipartiteBFS(vector<vector<int>> &edges, vector<int> &col, int src) {
+    queue<int> q;
+    q.push(src);
+    col[src] = 0;   //Assuming colors -> 0 & 1
+
+    while(!q.empty()) {
+        int node = q.front();
+        q.pop();
+        
+        for(auto nbr : edges[node]) {
+            if(col[nbr] == -1) { //not yet visited
+                col[nbr] = !col[node];
+                q.push(nbr);
+            }
+            else if(col[nbr] == col[node]) {  //if same as the parent
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 
 
 

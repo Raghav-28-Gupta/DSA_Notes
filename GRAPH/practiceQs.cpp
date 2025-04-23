@@ -266,7 +266,6 @@ vector<vector<int>> nearest(vector<vector<int>>& grid) {
 
 
 
-
 // GFG : Replace O's with X's
 void fillDfs(int row, int col, vector<vector<int>> &vis, vector<pair<int, int>> &steps, vector<vector<char>>& mat) {
     vis[row][col] = 1;  
@@ -390,7 +389,6 @@ void solve(vector<vector<char>>& board) {
 
 
 
-
 // GFG && LEETCODE : 1020 (Number Of Enclaves)
 int numberOfEnclaves(vector<vector<int>> &grid) {
     int n = grid.size();
@@ -461,6 +459,43 @@ int numberOfEnclaves(vector<vector<int>> &grid) {
 
 
 
+// GFG : Number of Distinct Islands
+void countDistinctIslandsDFS(int row, int col, vector<vector<int>>& grid, vector<vector<int>> &vis, vector<pair<int, int>> &vec, int row0, int col0){
+    int n = grid.size();
+    int m = grid[0].size();
+
+    vis[row][col] = 1;
+    vec.push_back({row - row0, col - col0});
+    vector<pair<int, int>> steps = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    for(auto step : steps) {
+        int nrow = row + step.first;
+        int ncol = col + step.second;
+        if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+           vis[nrow][ncol] == 0 && grid[nrow][ncol] == 1){
+            countDistinctIslandsDFS(nrow, ncol, grid, vis, vec, row0, col0);
+        }
+    }
+}
+
+int countDistinctIslands(vector<vector<int>>& grid) {
+    int n = grid.size();
+    int m = grid[0].size();
+    vector<vector<int>> vis(n, vector<int> (m, 0));
+    set<vector<pair<int, int>>> st;
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+            if(grid[i][j] == 1 && vis[i][j] == 0) {
+                vector<pair<int, int>> vec;
+                countDistinctIslandsDFS(i, j, grid, vis, vec, i, j);
+                st.insert(vec);
+            }
+        }
+    }
+
+    return st.size();
+}
 
 
 

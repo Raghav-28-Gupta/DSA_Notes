@@ -465,7 +465,7 @@ void countDistinctIslandsDFS(int row, int col, vector<vector<int>>& grid, vector
     int m = grid[0].size();
 
     vis[row][col] = 1;
-    vec.push_back({row - row0, col - col0});
+    vec.push_back({row - row0, col - col0});   // store relative position
     vector<pair<int, int>> steps = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     for(auto step : steps) {
@@ -498,6 +498,22 @@ int countDistinctIslands(vector<vector<int>>& grid) {
 }
 
 
+
+// LEETCODE : 785 (Is Graph Bipartite?)
+bool isBipartiteDFS(vector<vector<int>> &edges, vector<int> &col, int src, int color){
+    col[src] = color;  //starting with color '0' first
+    
+    for(auto nbr : edges[src]) {
+        if(col[nbr] == -1) {
+            if(!isBipartiteDFS(edges, col, nbr, !color)) return false;
+        }
+        else if(col[nbr] == color) {  //if nbr has the same color as the parent 
+            return false;
+        }
+    }
+    
+    return true;
+}
 
 
 

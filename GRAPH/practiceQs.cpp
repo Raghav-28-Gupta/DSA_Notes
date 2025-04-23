@@ -538,6 +538,26 @@ bool isBipartiteBFS(vector<vector<int>> &edges, vector<int> &col, int src) {
     return true;
 }
 
+bool isBipartite(vector<vector<int>>& graph) {
+    int V = graph.size();
+    vector<int> col(V, -1);
+    
+    for(int i = 0; i < V; i++) {
+        if(col[i] == -1){
+            if(!isBipartiteBFS(graph, col, i)) return false;
+        }
+    }
+
+    for(int i = 0; i < V; i++) {
+        if(col[i] == -1){
+            //Assuming colors -> 0 & 1
+            if(!isBipartiteDFS(graph, col, i, 0)) return false;
+        }
+    }
+    
+    return true;
+}
+
 
 
 

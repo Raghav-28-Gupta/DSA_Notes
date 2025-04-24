@@ -586,7 +586,26 @@ bool isCyclicDFS(vector<vector<int>> &adjList, unordered_map<int, bool> &vis, un
     return false;
 }
 
-
+bool isCyclic(int V, vector<vector<int>> &edges) {
+    // Build adjacency List
+    vector<vector<int>> adjList(V);
+    for(auto node : edges) {
+        adjList[node[0]].push_back(node[1]);
+    }
+    
+    unordered_map<int, bool> vis;
+    unordered_map<int, bool> dfsTracker;
+    
+    for(int i = 0; i < V; i++) {
+        if(!vis[i]){
+            if(isCyclicDFS(adjList, vis, dfsTracker, i)){
+                return true;
+            }
+        }
+    } 
+    
+    return false;
+}
 
 
 

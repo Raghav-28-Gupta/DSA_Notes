@@ -266,6 +266,7 @@ vector<vector<int>> nearest(vector<vector<int>>& grid) {
 
 
 
+
 // GFG : Replace O's with X's
 void fillDfs(int row, int col, vector<vector<int>> &vis, vector<pair<int, int>> &steps, vector<vector<char>>& mat) {
     vis[row][col] = 1;  
@@ -389,6 +390,7 @@ void solve(vector<vector<char>>& board) {
 
 
 
+
 // GFG && LEETCODE : 1020 (Number Of Enclaves)
 int numberOfEnclaves(vector<vector<int>> &grid) {
     int n = grid.size();
@@ -459,6 +461,7 @@ int numberOfEnclaves(vector<vector<int>> &grid) {
 
 
 
+
 // GFG : Number of Distinct Islands
 void countDistinctIslandsDFS(int row, int col, vector<vector<int>>& grid, vector<vector<int>> &vis, vector<pair<int, int>> &vec, int row0, int col0){
     int n = grid.size();
@@ -496,6 +499,7 @@ int countDistinctIslands(vector<vector<int>>& grid) {
 
     return st.size();
 }
+
 
 
 
@@ -559,6 +563,28 @@ bool isBipartite(vector<vector<int>>& graph) {
 }
 
 
+
+
+// GFG : Directed Graph Cycle
+bool isCyclicDFS(vector<vector<int>> &adjList, unordered_map<int, bool> &vis, unordered_map<int, bool> &dfsTracker, int src) {
+    vis[src] = true;
+    dfsTracker[src] = true;
+    
+    for(auto nbr : adjList[src]) {
+        if(!vis[nbr]) {
+            if(isCyclicDFS(adjList, vis, dfsTracker, nbr)) return true;
+        }
+        // If the node has been previously visited 
+        // But it has to be visited on the same path
+        else if(vis[nbr] == true && dfsTracker[nbr] == true){
+            return true;
+        }
+    }
+    
+    // Backtracking
+    dfsTracker[src] = false;
+    return false;
+}
 
 
 

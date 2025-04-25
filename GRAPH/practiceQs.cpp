@@ -656,6 +656,8 @@ vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
 
 
 
+
+// NOTE : By only placing nodes with zero indegree, we ensure that all prerequisites for a node are placed before it
 // GFG : Prerequisite Tasks
 bool isPossible(int N, int P, vector<pair<int, int> >& prerequisites) {
     vector<vector<int>> adjList(N);
@@ -697,9 +699,6 @@ bool isPossible(int N, int P, vector<pair<int, int> >& prerequisites) {
     if(topoSort.size() != N) return false;
     return true;
 }
-
-
-
 // GFG : Course Schedule
 vector<int> findOrder(int N, vector<vector<int>> prerequisites) {
     vector<vector<int>> adjList(N);

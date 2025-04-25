@@ -634,7 +634,25 @@ bool eventualSafeNodesDFS(vector<vector<int>>& graph, unordered_map<int, bool> &
     return false;
 }
 
-
+vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+    int V = graph.size();
+    unordered_map<int, bool> vis;
+    unordered_map<int, bool> dfsTracker;
+    vector<int> safeNode(V, 0);
+    vector<int> ans;
+    
+    for(int i = 0; i < V; i++){
+        if(!vis[i]){
+            bool ans = eventualSafeNodesDFS(graph, vis, safeNode, dfsTracker, i);
+        }
+    }
+    
+    for(int i = 0; i < V; i++) {
+        if(safeNode[i]) ans.push_back(i);
+    }
+    
+    return ans;
+}
 
 
 

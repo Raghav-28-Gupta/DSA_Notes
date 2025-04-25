@@ -610,6 +610,29 @@ bool isCyclic(int V, vector<vector<int>> &edges) {
 
 
 
+// LEETCODE : 802 (Find Eventual Safe States)
+bool eventualSafeNodesDFS(vector<vector<int>>& graph, unordered_map<int, bool> &vis, vector<int> &safeNode, unordered_map<int, bool>  &dfsTracker, int src){
+    vis[src] = true;
+    dfsTracker[src] = true;
+
+    for(auto nbr: graph[src]) {
+        if(!vis[nbr]) {
+            if(eventualSafeNodesDFS(graph, vis, safeNode, dfsTracker, nbr)){
+                safeNode[nbr] = false;
+                return true;
+            } 
+        }
+        else if(vis[nbr] == true && dfsTracker[nbr] == true) {
+            safeNode[nbr] = false;
+            return true;
+        }
+    }
+    
+    // Backtracking 
+    safeNode[src] = 1;
+    dfsTracker[src] = false;
+    return false;
+}
 
 
 

@@ -700,6 +700,47 @@ bool isPossible(int N, int P, vector<pair<int, int> >& prerequisites) {
 
 
 
+// GFG : Course Schedule
+vector<int> findOrder(int N, vector<vector<int>> prerequisites) {
+    vector<vector<int>> adjList(N);
+    for(auto it : prerequisites) {
+        adjList[it[1]].push_back(it[0]);
+    }
+    
+    vector<int> inDegree(N, 0);
+    for(int i = 0; i < N; i++){
+        for(auto nbr : adjList[i]){
+            inDegree[nbr]++;
+        }
+    }
+    
+    queue<int> q;
+    for(int i = 0; i < N; i++) {
+        // having  no prerequisites
+        if(inDegree[i] == 0){
+            q.push(i);
+        }
+    }
+    
+    vector<int> topoSort;
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+        topoSort.push_back(node);
+        
+        for(auto nbr : adjList[node]) {
+            // conceptually "remove" the outgoing edges
+            // of node with inDegree '0'
+            inDegree[nbr]--;
+            if(inDegree[nbr] == 0) {
+                q.push(nbr);
+            }
+        }
+    }
+    
+    if(topoSort.size() != N) return {};
+    return topoSort;
+}
 
 
 

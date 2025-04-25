@@ -634,6 +634,43 @@ bool eventualSafeNodesDFS(vector<vector<int>>& graph, unordered_map<int, bool> &
     return false;
 }
 
+vector<int> eventualSafeNodesBFS(vector<vector<int>>& graph) {
+    int V = graph.size();
+    
+    vector<vector<int>> adjRev(V);
+    vector<int> indegree(V);
+    for(int i = 0; i < V; i++) {
+        for(auto it : graph[i]){
+            adjRev[it].push_back(i);
+            indegree[i]++;
+        }
+    }
+
+    queue<int> q;
+    for(int j = 0; j < V; j++) {
+        if(indegree[j] == 0){
+            q.push(j);
+        }
+    }
+    
+    vector<int> safeNode;
+    while(!q.empty()){
+        int node = q.front();
+        q.pop();
+        safeNode.push_back(node);
+
+        for(auto nbr: adjRev[node]){
+            indegree[nbr]--;
+            if(indegree[nbr] == 0) {
+                q.push(nbr);
+            }
+        }
+    }
+    
+    sort(safeNode.begin(), safeNode.end());
+    return safeNode;
+}
+
 vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
     int V = graph.size();
     unordered_map<int, bool> vis;

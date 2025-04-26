@@ -634,6 +634,7 @@ bool eventualSafeNodesDFS(vector<vector<int>>& graph, unordered_map<int, bool> &
     return false;
 }
 
+// Just reverse the edges and implement Topological sort
 vector<int> eventualSafeNodesBFS(vector<vector<int>>& graph) {
     int V = graph.size();
     
@@ -695,6 +696,7 @@ vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
 
 
 // NOTE : By only placing nodes with zero indegree, we ensure that all prerequisites for a node are placed before it
+
 // GFG : Prerequisite Tasks
 bool isPossible(int N, int P, vector<pair<int, int> >& prerequisites) {
     vector<vector<int>> adjList(N);
@@ -777,7 +779,6 @@ vector<int> findOrder(int N, vector<vector<int>> prerequisites) {
     if(topoSort.size() != N) return {};
     return topoSort;
 }
-
 
 
 

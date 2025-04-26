@@ -788,7 +788,7 @@ vector<int> topoOrder(int N, unordered_map<int, vector<int>> &adjList, unordered
     queue<int> q;
     for(auto &entry: inDegree) {
         if(entry.second == 0) {
-        q.push(entry.first);
+            q.push(entry.first);
         }
     }
 
@@ -803,7 +803,7 @@ vector<int> topoOrder(int N, unordered_map<int, vector<int>> &adjList, unordered
             // of node with inDegree '0'
             inDegree[nbr]--;
             if(inDegree[nbr] == 0) {
-            q.push(nbr);
+                q.push(nbr);
             }
         }
     }
@@ -813,6 +813,7 @@ vector<int> topoOrder(int N, unordered_map<int, vector<int>> &adjList, unordered
 
 string findOrder(vector<string> &words) {
     // used map to optimize the length of adjList && inDegree
+    // Since we are not given the no. of letters in Alien's Dictionary
     unordered_map<int, vector<int>> adjList;
     unordered_map<int, int> inDegree;
     unordered_set<int> vis;
@@ -822,7 +823,7 @@ string findOrder(vector<string> &words) {
         for(auto it : word) {
             vis.insert(it - 'a');
             if(!inDegree.count(it - 'a')){
-            inDegree[it - 'a'] = 0;
+                inDegree[it - 'a'] = 0;
             }
         }
     }
@@ -833,14 +834,14 @@ string findOrder(vector<string> &words) {
         int len = min(st1.length(), st2.length());
 
         if (st1.substr(0, len) == st2.substr(0, len) && st1.length() > st2.length()) {
-        return ""; // Invalid prefix case
+            return ""; // Invalid prefix case
         }
 
         for(int j = 0; j < len; j++) {
             if(st1[j] != st2[j]) {
-            adjList[st1[j] - 'a'].push_back(st2[j] - 'a');
-            inDegree[st2[j] - 'a']++;
-            break;
+                adjList[st1[j] - 'a'].push_back(st2[j] - 'a');
+                inDegree[st2[j] - 'a']++;
+                break;
             }
         }
     }

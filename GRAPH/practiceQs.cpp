@@ -863,6 +863,18 @@ string findOrder(vector<string> &words) {
 
 
 // GFG : Shortest path in Directed Acyclic Graph
+void topoSort(int src, vector<pair<int, int>> adj[], unordered_map<int, bool> &vis, stack<int> &st){
+    vis[src] = true;
+    for(auto nbr : adj[src]) {
+        int node = nbr.first;
+        if(!vis[node]){
+            topoSort(node, adj, vis, st);
+        }
+    }
+    
+    st.push(src);
+}
+
 vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
     vector<pair<int, int>> adjList[V];
     for(auto edge : edges) {

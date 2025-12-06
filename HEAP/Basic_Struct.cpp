@@ -92,12 +92,12 @@ public:
           int rightChild = 2 * currIndex + 1;
           
           // Check if left child exists and is greater than current largest
-          if(leftChild <= n && arr[largest] < arr[leftChild]) {
+          if(leftChild < n && arr[largest] < arr[leftChild]) {
                largest = leftChild;
           }
           
           // Check if right child exists and is greater than current largest
-          if(rightChild <= n && arr[largest] < arr[rightChild]) {
+          if(rightChild < n && arr[largest] < arr[rightChild]) {
                largest = rightChild;
           }
           

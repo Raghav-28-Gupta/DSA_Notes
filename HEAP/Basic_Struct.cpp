@@ -25,13 +25,13 @@ public:
 
      Heap(int n) {
           this->capacity = n;
-          this->arr = new int[n];
+          this->arr = new int[n + 1];
           this->index = 0;
      }
      
      // PRINT
      void printHeap() {
-          for(int i = 0; i < capacity; i++) {
+          for(int i = 1; i <= index; i++) {
                cout << arr[i] << " ";
           }
           cout << endl;
@@ -92,12 +92,12 @@ public:
           int rightChild = 2 * currIndex + 1;
           
           // Check if left child exists and is greater than current largest
-          if(leftChild < n && arr[largest] < arr[leftChild]) {
+          if(leftChild <= n && arr[largest] < arr[leftChild]) {
                largest = leftChild;
           }
           
           // Check if right child exists and is greater than current largest
-          if(rightChild < n && arr[largest] < arr[rightChild]) {
+          if(rightChild <= n && arr[largest] < arr[rightChild]) {
                largest = rightChild;
           }
           
